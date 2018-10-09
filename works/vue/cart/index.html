@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>購物車</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+	<div class="container" id="app">
+		<div class="row">
+			<template v-if="this.carts.length == 0">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						購物車沒有任何東西
+					</div>
+				</div>
+			</template>
+			<template v-else>
+				<!-- bs3-panel:heading -->
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">購物車</h3>
+					</div>
+					<div class="panel-body">
+						<!-- bs3-panel:table -->
+						<div class="panel-body">
+							<!-- Table -->
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th><input type="checkbox" @click="selectAll()" name="" v-model="checkAll"></th>
+										<th>商品名稱</th>
+										<th>商品單價</th>
+										<th>購買數量</th>
+										<th>小記</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-for="(cart, key) in carts">
+										<td><input type="checkbox" @click="singleCheck(cart.id)" name="" :checked="selectedProducts.indexOf(cart.id)!=-1"></td>
+										<td>{{cart.name}}</td>
+										<td>{{cart.price}}</td>					
+										<td>
+											<button @click="minus(key)">-</button>
+											<input type="text" v-model="cart.num" value="1" style=
+											"width:30px;text-align: center;">
+											<button @click="plus(key)">+</button>
+										</td>
+										<td>{{cart.price * cart.num}}</td>
+										<td>
+											<span class="input-group-btn btn-group-xs">
+												<button @click="del(key)" type="button" class="btn btn-danger">刪除</button>
+											</span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="panel-footer" style="text-align: right;">
+						共計: <span>{{totalPrice}}</span> 元
+					</div>
+				</div>
+			</template>
+		</div>		
+	</div>
+	<script>
+		new Vue({
+			el: "#app",
+			data:{
+				// 全部勾選
+				checkAll : false,
+				// 依照勾選順序放的商品
+				selectedProducts: [],
+				// 購物車資料
+				carts : [
+					{id:1, name:'【黑箱輕食早午餐】只要70元，即可享有【黑箱輕食早午餐】平假日皆可抵用100元消費金額', price: 70, num:1},
+					{id:2, name:"【大地清旅 Horizon Inn】單人(假日)自助式早午餐吃到飽", price: 280, num:1},
+					{id:3, name:'【香格里拉台南遠東國際大飯店-大廳茶軒】經典早午餐單人饗宴', price: 170, num:1},
+					{id:4, name:"【布偶 美式速食】只要148元，即可享有【布偶 美式速食】平假日可抵用200元消費金額", price: 380, num:1},
+					{id:5, name:'【Beefast蜂朝膳】只要69元，即可享有【Beefast蜂朝膳】週一至週五(07:00~14:00)可抵用100元消', price: 69, num:1},
+					{id:6,name:"【伊特早午餐】只要72元，即可享有【伊特早午餐】週一至週二、週四至週六於(06:30~12:00)可抵用100元消費金額", price: 72, num:1}
+					,{id:7, name:'【SUBWAY(大魯閣草衙道店)】只要99元，即可享有【SUBWAY(大魯閣草衙道店)】CP值爆表超值餐', price: 99, num:1},
+					{id:8, name:"【晨時】只要135元，即可享有【晨時】平假日可抵用200元消費金額", price: 135, num:1},
+					{id:9, name:'【目嘻嘻早午餐】只要139元，即可享有【目嘻嘻早午餐】平假日可抵用200元消費金額', price: 139, num:1},
+					{id:10, name:"【品藏早午餐】只要238元(雙人價)，即可享有【品藏早午餐】人氣雙人早午餐", price: 238, num:1}
+				]
+			},
+			methods: {
+				plus(key) {
+					this.carts[key].num ++;
+					// 不存在則加入id，避免重複加入
+					if (this.selectedProducts.indexOf(this.carts[key].id) == -1)
+						this.selectedProducts.push(this.carts[key].id);
+				},
+				minus(key) {
+					this.carts[key].num --;
+					switch(true)
+					{
+						case this.carts[key].num == 0:
+						// 取消勾選
+							var selectIndex = this.selectedProducts.indexOf(this.carts[key].id);
+							this.selectedProducts.splice(selectIndex, 1);
+							break;
+						case this.carts[key].num < 0:
+						// 刪除那一列
+							this.del(key);
+							break;
+					}
+				},
+				del(key) {
+					this.carts.splice(key, 1);
+				},
+				selectAll() {
+					if (!event.currentTarget.checked) {
+						// 全選的按鈕沒有勾選的時候，設定為空
+						this.selectedProducts = [];
+					} else {
+						this.carts.forEach((value, key) => {
+							this.selectedProducts.push(value.id);		
+						});
+					}
+				},
+				singleCheck(id) {
+					// 判斷是否有在全選的陣列中
+					var selectIndex = this.selectedProducts.indexOf(id);
+					// 不存在就加入，用Index來splice，而不是id
+					(selectIndex == -1) ? this.selectedProducts.push(id) : this.selectedProducts.splice(selectIndex, 1);
+					// 判斷是否全部勾選
+					this.checkAll = this.carts.length == this.selectedProducts.length;
+				}
+			},
+			computed: {
+				totalPrice() {
+					var total = 0;
+					this.carts.forEach((v, k) => {
+						if (this.selectedProducts.indexOf(v.id)!=-1)
+							total += v.num * v.price;
+					});
+					return total;
+				}
+			}
+		});
+	</script>
+</body>
+</html>
