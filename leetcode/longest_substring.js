@@ -31,10 +31,10 @@ var lengthOfLongestSubstring = function(s) {
             hash = {};
             // console.log('debug=>',next_possible_longest_str,tmp_hash_cur_index, i);
             // 修改str的值
-            tmp_compare_str = next_possible_longest_str ;
+            tmp_compare_str = next_possible_longest_str + cur_char ;
             
             // 把字串再拆成字元存回hash物件中
-            for(let j=tmp_hash_cur_index; j < i ; j++) {
+            for(let j=tmp_hash_cur_index+1; j <= i ; j++) {
                 // hash[s.substring(j,1)] = {'index': j};
                 hash[s.charAt(j)] = {'index': j};
             }
