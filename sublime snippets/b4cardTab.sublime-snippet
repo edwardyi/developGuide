@@ -1,0 +1,18 @@
+<snippet>
+	<content><![CDATA[
+
+<div class="card">
+	<div class="card-header">
+		card-header
+	</div>
+	<div class="card-body">
+		<input class="btn btn-primary" type="text" value="">
+	</div>
+	<div class="card-footer">
+		<button type="submit" class="btn btn-success">Submit</button>
+	</div>
+</div>
+
+]]></content>
+	<tabTrigger>b4:card,tab</tabTrigger>
+</snippet>
