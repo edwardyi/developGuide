@@ -1,0 +1,36 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "intelliSenseMode": "clang-x64",
+            "includePath": [
+                "${workspaceRoot}",
+                "F:/llvm/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++",
+                "F:/llvm/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/x86_64-w64-mingw32",
+                "F:/llvm/lib/gcc/x86_64-w64-mingw32/7.1.0/include/c++/backward",
+                "F:/llvm/lib/gcc/x86_64-w64-mingw32/7.1.0/include",
+                "F:/llvm/include",
+                "F:/llvm/x86_64-w64-mingw32/include",
+                "F:/llvm/lib/gcc/x86_64-w64-mingw32/7.1.0/include-fixed"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "__GNUC__=7",
+                "__cdecl=__attribute__((__cdecl__))"
+            ],
+            "browse": {
+                "path": [
+                    "F:/llvm/x86_64-w64-mingw32/include",
+                    "F:/llvm/lib/gcc/x86_64-w64-mingw32/7.1.0/include",
+                    "F:/llvm/lib/gcc/x86_64-w64-mingw32/7.1.0/include-fixed",
+                    "F:/llvm/include/*",
+                    "${workspaceRoot}"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            }
+        }
+    ],
+    "version": 4
+}
